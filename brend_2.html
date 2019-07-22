@@ -1,0 +1,191 @@
+
+
+
+
+
+<!--
+
+
+<style type="text/css" media="screen">
+
+
+/*-------- NEW CSS --------*/
+
+
+.alphabet-links>ul>li {
+    display: inline-block;
+    padding-left: 0px;
+    width: calc(100% / 34);
+    min-width: 40px;
+    margin: 0 0 .6em;
+    font-weight: 900;
+}
+
+
+.alphabet-links a {
+    padding: 5px 0;
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: 0.1s all;
+    background-color: #93c73e69;
+
+
+}
+
+
+a:hover, .a-link:hover {
+    color: #93c73e;
+}
+
+a{
+	color: #333;
+	text-decoration: none;
+}
+
+.title-text {
+    width: 50%;
+}
+
+
+.brand_title_block {
+    width: 100%;
+    font-size: 20px;
+    border-bottom: 1px solid #d3e8b0;
+    position: relative;
+    display: flex;
+	padding-bottom: 10px;
+}
+.back_up{
+	position: absolute;
+	right: 0;
+    width: 50%;
+    text-align: right;
+}
+
+
+.brands_block>ul {
+    column-count: 3;
+    column-width: 350px;
+}
+
+.brands_block>ul>li {
+    overflow: hidden;
+    position: relative;
+    padding-left: 20px;
+    list-style: none;
+	margin: 0 0 .6em;
+
+	}
+
+
+</style>
+
+
+
+<div>
+
+<section class="content-wrapper">
+<div class="title-bar">
+
+<h3>Бренды A-Z</h3>
+
+
+<div class="alphabet-links" id="top">
+
+<ul>
+	<li><a href="#0-9">#</a></li>
+	<li><a href="#A">A</a></li>
+	<li><a href="#B">B</a></li>
+	<li><a href="#C">C</a></li>
+	<li><a href="#D">D</a></li>
+	<li><a href="#E">E</a></li>
+	<li><a href="#F">F</a></li>
+	<li><a href="#G">G</a></li>
+	<li><a href="#H">H</a></li>
+	<li><a href="#I">I</a></li>
+	<li><a href="#J">J</a></li>
+	<li><a href="#K">K</a></li>
+	<li><a href="#L">L</a></li>
+	<li><a href="#M">M</a></li>
+	<li><a href="#N">N</a></li>
+	<li><a href="#O">O</a></li>
+	<li><a href="#P">P</a></li>
+	<li><a href="#Q">Q</a></li>
+	<li><a href="#R">R</a></li>
+	<li><a href="#S">S</a></li>
+	<li><a href="#T">T</a></li>
+	<li><a href="#U">U</a></li>
+	<li><a href="#V">V</a></li>
+	<li><a href="#W">W</a></li>
+	<li><a href="#X">X</a></li>
+	<li><a href="#Y">Y</a></li>
+	<li><a href="#Z">Z</a></li>
+</ul>
+
+</div>
+
+
+</div>
+<div class="inner-content">
+
+	<div class="brand_title_block" id="0-9">
+	<div class="title-text">0-9</div>
+	<div class="back_up"><a href="#top">Вернуться к началу</a></div>
+	</div>
+	<div class="brands_block">
+		<ul>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+			<li><a href="/16-Brand">16 Brand</a></li>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+			<li><a href="/16-Brand">16 Brand</a></li>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+			<li><a href="/16-Brand">16 Brand</a></li>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+			<li><a href="/16-Brand">16 Brand</a></li>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+			<li><a href="/16-Brand">16 Brand</a></li>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+			<li><a href="/16-Brand">16 Brand</a></li>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+			<li><a href="/16-Brand">16 Brand</a></li>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+			<li><a href="/16-Brand">16 Brand</a></li>
+			<li><a href="/145-Intelligent-Skincare-for-Men">145 Intelligent Skincare for Men</a></li>
+		
+			
+		</ul>
+		
+	</div>
+
+
+
+</div>
+</section>
+
+
+
+
+
+
+
+-->
+
+
+<script src="brend.js" type="text/javascript" charset="utf-8"r></script>
+
+
+<p>Take this</p>
+<textarea rows="10" cols="20">SELECT  h_brands.title, p_url.uri
+FROM p_url
+INNER JOIN h_brands ON p_url.record = h_brands.id
+WHERE h_brands.i18n_language = 1 AND p_url.handler = 349;
+</textarea>
+<label> Put your color here</label>
+<input type="text" name="main_color" id="main_color">
+<textarea name="" id="brand_name" rows="10" cols="20">
+</textarea>
+<textarea name="" id="brand_link" rows="10" cols="20">
+</textarea>
+
+<button type="" onclick="start()">START</button>
