@@ -79,7 +79,8 @@ VALUES(3, {$bookId}, 13, 1),(3, {$bookId}, 13, 2),(3, {$bookId}, 13, 3)
 /*----------- Добавление параметра в двухуровневый фильтр -----------------*/
 
 
-INSERT INTO h_catalog_avtomobili (`title`, parent) VALUES('Toyota',0); SET @parentModel = (SELECT id FROM h_catalog_avtomobili WHERE `title` = 'Toyota');
+INSERT INTO h_catalog_avtomobili (`title`, parent) VALUES('Toyota',0);
+SET @parentModel = (SELECT id FROM h_catalog_avtomobili WHERE `title` = 'Toyota');
 INSERT INTO h_catalog_avtomobili (`title`, parent) VALUES('Auris (E180) ''2012–18', @parentModel);
 
 
