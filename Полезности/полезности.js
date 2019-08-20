@@ -430,8 +430,6 @@ svg.icon - tg, .footer - social - icon svg.icon - tg {
 
 }
 
-
-
 svg.icon - fb, .footer - social - icon svg.icon - fb {
     fill: #3b5998;
 } 
