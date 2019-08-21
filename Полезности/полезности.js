@@ -646,17 +646,31 @@ $('.filterInput').keyup(
 
 /*------ Суб меню каталога напротив основного -------*/
 
+$(window).load(function(){
+    var headerHeight = $('.header').height();
 $('li.productsMenu-tabs-list__tab').mouseover(function(){
 
+    let SubMenuTop = 0;
+    SubMenuTop =
+        $('li.productsMenu-tabs-list__tab.__hover')[0] === undefined ?
+        SubMenuTop :
+        $('li.productsMenu-tabs-list__tab.__hover')[0].getBoundingClientRect().top + window.pageYOffset - headerHeight;
+
+    let SubMenuHeight = $('.productsMenu-tabs-content .productsMenu-submenu-w.__visible').height() + 50;
     $('div.productsMenu-tabs-content').css({
     
     'position':'relative',
-    'top': this.getBoundingClientRect().top + window.pageYOffset - 174,
-    'height': $('.productsMenu-tabs-content .productsMenu-submenu-w.__visible').height() + 50
+    'top': SubMenuTop,
+    'height': SubMenuHeight
     
     })
 
 })
+});
+
+
+
+
 
 
 /*  ---------- CSS
@@ -679,3 +693,5 @@ $('li.productsMenu-tabs-list__tab').mouseover(function(){
 
 
 */
+
+
