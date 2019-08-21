@@ -637,3 +637,45 @@ $('.filterInput').keyup(
     }
 
 )
+
+
+
+
+
+
+
+/*------ Суб меню каталога напротив основного -------*/
+
+$('li.productsMenu-tabs-list__tab').mouseover(function(){
+
+    $('div.productsMenu-tabs-content').css({
+    
+    'position':'relative',
+    'top': this.getBoundingClientRect().top + window.pageYOffset - 174,
+    'height': $('.productsMenu-tabs-content .productsMenu-submenu-w.__visible').height() + 50
+    
+    })
+
+})
+
+
+/*  ---------- CSS
+
+.productsMenu-submenu.__fluidGrid.__smallIcons.__hasTabs.__pos_left.__visible {
+    overflow: visible;
+}
+
+
+.productsMenu-tabs, .productsMenu-tabs-switch, .productsMenu-tabs-list {
+    width: 300px;
+}
+
+
+
+
+
+
+
+
+
+*/
