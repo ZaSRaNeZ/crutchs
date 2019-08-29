@@ -79,9 +79,9 @@ VALUES(3, {$bookId}, 13, 1),(3, {$bookId}, 13, 2),(3, {$bookId}, 13, 3)
 /*----------- Добавление параметра в двухуровневый фильтр -----------------*/
 
 
-INSERT INTO h_catalog_avtomobili (`title`, parent) VALUES('Toyota',0);
+INSERT INTO h_catalog_avtomobili (`title`, parent) VALUES('Toyota',0);  # Добавление первого уровня фильтра. Вместо "Toyota" то что нужно
 SET @parentModel = (SELECT id FROM h_catalog_avtomobili WHERE `title` = 'Toyota');
-INSERT INTO h_catalog_avtomobili (`title`, parent) VALUES('Auris (E180) ''2012–18', @parentModel);
+INSERT INTO h_catalog_avtomobili (`title`, parent) VALUES('Auris (E180) ''2012–18', @parentModel);  # Добавление второго уровня. Вместо "Auris (E180) ''2012–18" то что нужно
 
 
 
@@ -93,3 +93,11 @@ SET @maxOrderId = (SELECT MAX(order_id) FROM h_cart);
 UPDATE h_cart
 SET order_id = 250
 WHERE order_id = @maxOrderId;
+
+
+
+/*------ Изменение шаблона товара для всех страниц каталога на указаный --------*/
+
+UPDATE pages 
+SET handler = (SELECT id FROM handlers WHERE `table` = '') #здесь ввести таблицу типа h_catalog_katalogTovar
+WHERE handler <> 17 AND handler IN (SELECT id FROM handlers WHERE TYPE =2)

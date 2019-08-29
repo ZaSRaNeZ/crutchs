@@ -404,61 +404,6 @@ onclick = "start()" > push on the button < /button>
 
 
 
-/*------------ Расскрасить иконкы  --------------*/
-
-
-
-/*  */
-
-svg.icon - tw, .footer - social - icon svg.icon - tw {
-    fill: #00aced;
-}
-
-svg.icon-yt, .footer-social-icon svg.icon-yt{
-    
-    opacity:0.8;
-    fill:# f00;
-}
-
-svg.icon - tg, .footer - social - icon svg.icon - tg {
-    fill: #34abe0;
-} 
-
-.header-social-icon:hover svg.icon-yt{
-    fill:# f00;
-    opacity: 1;
-
-}
-
-svg.icon - fb, .footer - social - icon svg.icon - fb {
-    fill: #3b5998;
-} 
-
-svg.icon-vk, .footer-social-icon svg.icon-vk {
-    fill: # 45668e;
-}
-
-
-.header - social - icon: hover svg {
-    fill: #6d99f5;
-}
-
-svg.icon-ig {
-    background: url(https://pngicon.ru/file/uploads/instagram.png);
-    background-size: cover;
-}
-
-svg.icon-ig {
-    fill: rgba(153, 153, 153, 0);
-}
-
-.header-social-icon:hover svg.icon-ig {
-    fill: # 6 d99f500;
-}
-
-
-
-
 /*--------------- Масив категорий -------------*/
 
 
