@@ -640,3 +640,73 @@ $('li.productsMenu-tabs-list__tab').mouseover(function(){
 */
 
 
+
+
+
+
+/*------------ Печать Заказа -----------*/
+
+function printInfo(ele) {
+    var openWindow = window.open("", "title", "attributes");
+    openWindow.document.write(ele.innerHTML);
+    openWindow.document.close();
+    openWindow.focus();
+    openWindow.print();
+    openWindow.close();
+}
+
+
+var prinDiv = document.createElement('div');
+prinDiv.innerHTML = '<table>'
+
+var order = $('section.order')[0];
+$(order).find('img').each(function(ind,el){
+
+    this.src = this.src
+
+
+});
+var totalIndex = $(order).find('li.order-i').length;
+$(order).find('li.order-i').each(function(ind,el){
+prinDiv.innerHTML += '<tr>'
+    $(this).find('div').each(function(ind,el){
+        
+        prinDiv.innerHTML += '<td>'+this.innerHTML+'</td>';
+
+    })
+prinDiv.innerHTML += '</tr>'
+
+if (totalIndex == ind) {
+
+    prinDiv.innerHTML += '</table>';
+}
+ 
+
+})
+
+prinDiv
+
+
+
+printInfo(prinDiv);
+
+
+/*------------ подсчет по характеристике -----------*/
+var features = document.querySelectorAll('tr.product-features__row');
+var calcFeature = 0;
+$('.j-product-card-quantity').after('<div class="j-product-card-SM" style="position:absolute">M<sup><small>2</small></sup>:<span id="j-product-card-SM_calculated" class="j-product-card-SM_calculated"><span></div>');
+
+function calculateSquare(){
+    for(let i = 0; i<features.length; i++){
+        if(features[i].getElementsByClassName('product-features__cell--h')[0].innerHTML.trim() == 'м2/уп'){
+        calcFeature = parseFloat(features[i].getElementsByClassName('product-features__cell')[1].innerHTML);
+        break;
+        };
+    };
+    var result = parseInt($('input.counter-field.j-product-counter')[0].value) * calcFeature;
+    result = result.toFixed(2);
+    document.getElementById('j-product-card-SM_calculated').innerHTML = result;
+}
+
+$('input.counter-field.j-product-counter').on('input',calculateSquare);
+$('a.counter-btn.__plus, a.counter-btn.__minus').click(calculateSquare);

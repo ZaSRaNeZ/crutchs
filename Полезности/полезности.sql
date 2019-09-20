@@ -99,5 +99,46 @@ WHERE order_id = @maxOrderId;
 /*------ Изменение шаблона товара для всех страниц каталога на указаный --------*/
 
 UPDATE pages 
-SET handler = (SELECT id FROM handlers WHERE `table` = '') #здесь ввести таблицу типа h_catalog_katalogTovar
-WHERE handler <> 17 AND handler IN (SELECT id FROM handlers WHERE TYPE =2)
+SET handler = (SELECT id FROM handlers WHERE `table` = '') #здесь ввести таблицу характеристик типа h_catalog_katalogTovar
+WHERE handler <> 17 AND handler IN (SELECT id FROM handlers WHERE TYPE =2) OR handler NOT IN (SELECT id FROM handlers);
+
+
+
+/*------------- Изменение шаблона товара для выбраной категории и всех вложеных -------------*/
+
+LOCK TABLES `pages` WRITE;
+
+DROP TEMPORARY TABLE IF EXISTS `page_ids`;
+CREATE TEMPORARY TABLE IF NOT EXISTS `page_ids` (
+  `pk` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` INT(11) NOT NULL
+);
+
+                                          # так как мне нужно найти все вложености, 2 таблици нужны для перебора значений 
+
+DROP TEMPORARY TABLE IF EXISTS `buffer_page_ids`;
+CREATE TEMPORARY TABLE IF NOT EXISTS `buffer_page_ids` (
+  `pk` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` INT(11) NOT NULL
+);
+
+INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent = 1219 AND i18n_language = 1);   # 1219 - это ID начальной страницы
+
+/*этот блок нужен для увеличения вложености + 1 вложеность за 1 блок*/
+
+INSERT INTO `buffer_page_ids` (id) (SELECT id FROM `page_ids`);
+INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent IN (SELECT id FROM `buffer_page_ids`) AND i18n_language = 1);
+
+/*Конец Блока*/
+
+INSERT INTO `buffer_page_ids` (id) (SELECT id FROM `page_ids`);
+INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent IN (SELECT id FROM `buffer_page_ids`) AND i18n_language = 1);
+
+INSERT INTO `buffer_page_ids` (id) (SELECT id FROM `page_ids`);
+INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent IN (SELECT id FROM `buffer_page_ids`) AND i18n_language = 1);
+
+
+UPDATE pages SET handler = 453 WHERE parent IN (SELECT id FROM `page_ids`) OR parent = 1219 OR id = 1219 ;  # 1219 - это ID начальной страницы
+
+
+UNLOCK TABLES;
