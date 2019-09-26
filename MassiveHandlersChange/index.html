@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <style>
+        .wrapper {
+            margin: 0 auto;
+            width: 700px;
+        }
+
+        .input-block {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .input-block>input {
+            width: 45%;
+        }
+
+        .content {
+            margin-top: 150px;
+        }
+
+        #submit {
+            margin-top: 25px;
+            width: 60%;
+            padding: 4px;
+        }
+    </style>
+
+
+    <div class="input">
+        <div class="content">
+            <div class="wrapper">
+                <div class="input-block"><input type="text" id="handlerTableName"
+                        placeholder="Таблица шаблона 'h_product_characteristics'"><input type="text" id="pageName"
+                        placeholder="Название главной категории"><input type="button" value="выполнить" id="submit" onclick="createSQL()">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="out-block">
+        <div class="content">
+            <div class="wrapper"><textarea name="out" id="out" cols="100" rows="20">SELECT * FROM handlers</textarea></div>
+        </div>
+    </div>
+
+    <script>
+
+        function createSQL() {
+
+            var handler = document.getElementById('handlerTableName').value.trim();
+            var page = document.getElementById('pageName').value.trim();
+
+            var out = "LOCK TABLES `pages` WRITE, `h_catalog` WRITE, `handlers` READ;\n" +
+                "\n" +
+                "SET @pageIdParam =  (SELECT id FROM `pages` WHERE `title` = '"+ page +"' AND `i18n_language` = 1 LIMIT 1 );\n" +
+                "SET @handlerIdParam =  (SELECT id FROM `handlers` WHERE `table` = '"+handler+"' LIMIT 1);\n" +
+                "\n" +
+                "\n" +
+                "DROP TEMPORARY TABLE IF EXISTS `page_ids`;\n" +
+                "CREATE TEMPORARY TABLE IF NOT EXISTS `page_ids` (\n" +
+                "  `pk` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
+                "  `id` INT(11) NOT NULL\n" +
+                ");\n" +
+                "\n" +
+                "                                          # так как мне нужно найти все вложености, 2 таблици нужны для перебора значений \n" +
+                "\n" +
+                "DROP TEMPORARY TABLE IF EXISTS `buffer_page_ids`;\n" +
+                "CREATE TEMPORARY TABLE IF NOT EXISTS `buffer_page_ids` (\n" +
+                "  `pk` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
+                "  `id` INT(11) NOT NULL\n" +
+                ");\n" +
+                "\n" +
+                "INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent = @pageIdParam AND i18n_language = 1);   # 1115 - это ID начальной страницы\n" +
+                "INSERT INTO `buffer_page_ids` (id) (SELECT id FROM `page_ids`);\n" +
+                "\n" +
+                "/*этот блок нужен для увеличения вложености + 1 вложеность за 1 блок*/\n" +
+                "INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent IN (SELECT id FROM `buffer_page_ids`) AND i18n_language = 1);\n" +
+                "INSERT INTO `buffer_page_ids` (id) (SELECT id FROM `page_ids`);\n" +
+                "/*Конец Блока*/\n" +
+                "INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent IN (SELECT id FROM `buffer_page_ids`) AND i18n_language = 1);\n" +
+                "INSERT INTO `buffer_page_ids` (id) (SELECT id FROM `page_ids`);\n" +
+                "INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent IN (SELECT id FROM `buffer_page_ids`) AND i18n_language = 1);\n" +
+                "INSERT INTO `buffer_page_ids` (id) (SELECT id FROM `page_ids`);\n" +
+                "\n" +
+                "INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent IN (SELECT id FROM `buffer_page_ids`) AND i18n_language = 1);\n" +
+                "\n" +
+                "INSERT INTO `buffer_page_ids` (id) (SELECT id FROM `page_ids`);\n" +
+                "INSERT INTO `page_ids` (id) (SELECT id FROM pages WHERE parent IN (SELECT id FROM `buffer_page_ids`) AND i18n_language = 1);\n" +
+                "\n" +
+                "UPDATE pages SET handler = @handlerIdParam WHERE parent IN (SELECT id FROM `page_ids`) OR parent = @pageIdParam OR id = @pageIdParam ;\n" +
+                "UPDATE `h_catalog` SET handler_id = @handlerIdParam  WHERE parent IN (SELECT id FROM `page_ids`);  # 1115 - это ID начальной страницы\n" +
+                "\n" +
+                "\n" +
+                "UNLOCK TABLES;";
+
+            document.getElementById('out').value = out;
+
+    }
+
+
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
