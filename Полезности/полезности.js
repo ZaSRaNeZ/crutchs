@@ -692,6 +692,8 @@ printInfo(prinDiv);
 
 
 /*------------ подсчет по характеристике -----------*/
+
+
 var features = document.querySelectorAll('tr.product-features__row');
 var calcFeature = 0;
 $('.j-product-card-quantity').after('<div class="j-product-card-SM" style="position:absolute">M<sup><small>2</small></sup>:<span id="j-product-card-SM_calculated" class="j-product-card-SM_calculated"><span></div>');
@@ -705,8 +707,15 @@ function calculateSquare(){
     };
     var result = parseInt($('input.counter-field.j-product-counter')[0].value) * calcFeature;
     result = result.toFixed(2);
-    document.getElementById('j-product-card-SM_calculated').innerHTML = result;
+
+    if(isNaN(result)){
+        result = 0
+    }
+        document.getElementById('j-product-card-SM_calculated').innerHTML = result;
+    
 }
 
 $('input.counter-field.j-product-counter').on('input',calculateSquare);
 $('a.counter-btn.__plus, a.counter-btn.__minus').click(calculateSquare);
+
+calculateSquare();
