@@ -150,3 +150,37 @@ UPDATE `h_catalog` SET handler_id = @handlerIdParam  WHERE parent IN (SELECT id 
 
 
 UNLOCK TABLES;
+
+
+
+
+/*-------- Удалить все модификации ----------*/
+
+
+LOCK TABLES `h_catalog` WRITE, `h_product_characteristics` WRITE;
+
+
+DROP TEMPORARY TABLE IF EXISTS `prod_modif_ids`;
+CREATE TEMPORARY TABLE IF NOT EXISTS `prod_modif_ids` (
+  `pk` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` INT(11) NOT NULL
+);
+
+INSERT INTO `prod_ids` (id) (SELECT id FROM `h_catalog` WHERE  i18n_language = 1 AND  sortorder>0);
+
+DELETE FROM `h_catalog` WHERE id IN (SELECT id FROM `prod_modif_ids` );
+DELETE FROM `h_product_characteristics` WHERE id IN (SELECT id FROM `prod_modif_ids` );
+
+UNLOCK TABLES;
+
+
+
+/*------------ Проверка импорта на сбой --------------*/
+
+SELECT * FROM pending_jobs WHERE name ='import-job' ORDER BY run_date DESC LIMIT 10;
+
+
+
+/*----------- добавление клиента в базу -----------*/
+
+INSERT INTO h_users (title,email,pass) VALUES ('client1','client1@ts.ts','ebc30613814e0ce61b468b00a27d54ad'); #------ Сначала нужно создать 1 клиента, присвоить ему пароль и потом взять этот пароль для всех остальных
