@@ -149,6 +149,12 @@ UPDATE pages SET handler = @handlerIdParam WHERE parent IN (SELECT id FROM `page
 UPDATE `h_catalog` SET handler_id = @handlerIdParam  WHERE parent IN (SELECT id FROM `page_ids`);  # 1115 - это ID начальной страницы
 
 
+#Удалить мусор 
+#---- DELETE FROM `h_product_characteristics` WHERE `id` IN (SELECT `id` FROM `h_catalog` WHERE `i18n_language` = 1 AND `parent` IN (SELECT id FROM pages WHERE handler != 381 AND i18n_language = 1));
+
+
+
+
 UNLOCK TABLES;
 
 
