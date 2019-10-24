@@ -761,7 +761,7 @@ function priceChange (){
 }
 priceChange();
 
-if (a.length>0) {
-    let timerId = setTimeout(priceChange (), 2000);
-}
+let timerId = setInterval(function() {
+priceChange ()
+}, 2000);
 
