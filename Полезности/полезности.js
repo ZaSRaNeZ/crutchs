@@ -719,3 +719,49 @@ $('input.counter-field.j-product-counter').on('input',calculateSquare);
 $('a.counter-btn.__plus, a.counter-btn.__minus').click(calculateSquare);
 
 calculateSquare();
+
+
+
+
+
+
+/*-------------  Цена договорная  ---------------*/
+
+
+    var a = document.getElementsByClassName('catalogCard-price');
+    var b = document.getElementsByClassName('product-price__item');
+
+function priceChange (){
+
+    if(b.length > 0){
+
+         for (var i = 0; i < b.length; i++) {
+
+            if (b[i].innerText == '0 грн') {
+                b[i].innerHTML = 'цена договорная';
+                let buyButton = document.getElementsByClassName('product-order__block product-order__block--buy');
+                for (var i = 0; i < buyButton.length ; i++) {
+                    buyButton[i].style = 'display:none'
+                }
+            }
+        };
+    }
+    
+    else{
+
+        for (var i = 0; i < a.length; i++) {
+
+            if (a[i].innerHTML == '0 грн') {
+                a[i].innerHTML = 'цена договорная';
+                a[i].style.fontSize = '1em';
+            }
+        };
+    }
+
+}
+priceChange();
+
+if (a.length>0) {
+    let timerId = setTimeout(priceChange (), 2000);
+}
+
