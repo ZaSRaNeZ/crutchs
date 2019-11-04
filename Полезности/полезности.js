@@ -809,3 +809,20 @@ insertAfter(newNode, refNode);
 
 
 */
+
+
+
+
+/*-------- Добавление кастомного наполнения из характеристик -------------*/
+
+
+<span id="customText">&nbsp;</span>
+ <script>
+var features = document.querySelectorAll('tr.product-features__row');
+ for(let i = 0; i<features.length; i++){
+        if(features[i].getElementsByClassName('product-features__cell--h')[0].innerHTML.trim() == 'Экран'){
+        document.getElementById('customText').innerHTML = features[i].getElementsByClassName('product-features__cell')[1].innerHTML.trim();
+        break;
+        };
+    };
+</script>
