@@ -765,3 +765,47 @@ let timerId = setInterval(function() {
 priceChange ()
 }, 2000);
 
+
+
+/*  ----------  Кнопка в моб версии для перехода в каталог
+
+Кнопка появляеться после первого баннера на сайте
+*/
+
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+var newNode = document.createElement('div');
+newNode.id = 'mobile_catopen';
+newNode.innerHTML = '<a href="/katalog/" title="Перейти в каталог аксессуаров"> Каталог </a>'
+
+var refNode = $('.banners-group')[0];
+
+
+insertAfter(newNode, refNode);
+
+/* ------- CSS
+
+#mobile_catopen {
+    width: 100%;
+    margin: 35px 0 -15px;
+    display: flex;
+    justify-content: center;
+}
+#mobile_catopen a {
+    display: block;
+    width: 90%;
+    background: #fcc504;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 22px;
+    line-height: 45px;
+    border-bottom: 4px solid #dfae04;
+    text-align: center;
+}
+
+
+
+
+*/

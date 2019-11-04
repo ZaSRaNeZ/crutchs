@@ -190,3 +190,8 @@ SELECT * FROM pending_jobs WHERE name ='import-job' ORDER BY run_date DESC LIMIT
 /*----------- добавление клиента в базу -----------*/
 
 INSERT INTO h_users (title,email,pass) VALUES ('client1','client1@ts.ts','ebc30613814e0ce61b468b00a27d54ad'); #------ Сначала нужно создать 1 клиента, присвоить ему пароль и потом взять этот пароль для всех остальных
+
+
+/*---------- Вывести все товары которым не задан раздел ----------*/
+
+SELECT * FROM h_catalog WHERE parent NOT IN (SELECT id FROM pages);
