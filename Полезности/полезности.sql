@@ -195,3 +195,7 @@ INSERT INTO h_users (title,email,pass) VALUES ('client1','client1@ts.ts','ebc306
 /*---------- Вывести все товары которым не задан раздел ----------*/
 
 SELECT * FROM h_catalog WHERE parent NOT IN (SELECT id FROM pages);
+
+/*---------- Удалить все ID которых нет в h_cataloge из таблицы ----------*/
+
+DELETE FROM h_product_characteristics WHERE `id` NOT IN (SELECT DISTINCT `id` FROM h_catalog);
