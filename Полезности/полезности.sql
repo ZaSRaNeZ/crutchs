@@ -50,12 +50,6 @@ WHERE h_brands.i18n_language = 1;
 
 
 
-
-
-
-
-
-
 /*----------------------- перенести все бренды в раздел "бренды" и включить -----------------------------*/
 
 UPDATE h_brands
@@ -67,11 +61,6 @@ WHERE `parent` = 0;
 
 INSERT INTO h_common_access (type, item, role, access_level)
 VALUES(3, {$bookId}, 13, 1),(3, {$bookId}, 13, 2),(3, {$bookId}, 13, 3)
-
-
-
-
-
 
 
 

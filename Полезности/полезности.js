@@ -810,6 +810,48 @@ insertAfter(newNode, refNode);
 
 */
 
+/*----------- Мин кол-во единиц ------------*/
+
+var featuresQuant = document.querySelectorAll('tr.product-features__row'); 
+for(let i = 0; i<featuresQuant.length; i++){
+        if(featuresQuant[i].getElementsByClassName('product-features__cell--h')[0].innerHTML.trim() == 'Количество в упаковке'){
+        var quant = parseFloat(featuresQuant[i].getElementsByClassName('product-features__cell')[1].innerHTML);
+        for(let j = 0; j<quant - 1; j++){
+            $('a.counter-btn.__plus.j-product-increase').click();
+        }
+        $('a.counter-btn.__minus.j-product-decrease').addClass( "__disabled" );
+        break;
+        };
+    };
+
+
+    $('a.counter-btn.__minus.j-product-decrease, a.counter-btn.__plus.j-product-increase').click(function(){
+
+if(parseFloat($('.btn.__special.j-buy-button-add.j-ignore')[0].getAttribute('data-quantity')) <= quant){
+
+    $('a.counter-btn.__minus.j-product-decrease').addClass( "__disabled" );
+
+}
+else{
+    $('a.counter-btn.__minus.j-product-decrease').removeClass( "__disabled" );
+}
+});
+
+    
+
+ /*------   style
+
+a.counter-btn.__minus.j-product-decrease.__disabled{
+    pointer-events:none;
+}
+input.counter-field.j-product-counter {
+    pointer-events: none;
+}
+
+
+
+
+*/
 
 
 
@@ -826,3 +868,105 @@ var features = document.querySelectorAll('tr.product-features__row');
         };
     };
 </script>
+
+
+
+/*----------- Сделать блок в характеристиках  ---------*/
+
+var featuresStyle = document.querySelectorAll('tr.product-features__row'); 
+for(let i = 0; i<featuresStyle.length; i++){
+        let featureBuf =  featuresStyle[i].getElementsByClassName('product-features__cell--h')[0];
+        if( featureBuf.innerHTML.trim() == 'Комплектация'){
+                featureBuf.style= "    vertical-align: top;font-size: 1.2em;font-weight: 700;color: #000;"
+        }
+    };
+
+
+
+
+
+/*--------- минимальное количество заказа --------*/
+
+(function() {
+    var updateCounter = function() {
+        var featuresQuant = document.querySelectorAll('tr.product-features__row'); 
+        for(let i = 0; i<featuresQuant.length; i++){
+                if(featuresQuant[i].getElementsByClassName('product-features__cell--h')[0].innerHTML.trim() == 'Количество в упаковке'){
+                var quant = parseFloat(featuresQuant[i].getElementsByClassName('product-features__cell')[1].innerHTML);
+                for(let j = 0; j<quant - 1; j++){
+                    $('a.counter-btn.__plus.j-product-increase').click();
+                }
+                $('a.counter-btn.__minus.j-product-decrease').addClass( "__disabled" );
+                break;
+                };
+            };
+
+
+            $('a.counter-btn.__minus.j-product-decrease, a.counter-btn.__plus.j-product-increase').click(function(){
+
+        if(parseFloat($('.btn.__special.j-buy-button-add.j-ignore')[0].getAttribute('data-quantity')) <= quant){
+
+            $('a.counter-btn.__minus.j-product-decrease').addClass( "__disabled" );
+
+        }
+        else{
+            $('a.counter-btn.__minus.j-product-decrease').removeClass( "__disabled" );
+        }
+        });
+
+            $('span.selectboxit-container.selectboxit-container.select').click(function(){
+
+        if(parseFloat($('.btn.__special.j-buy-button-add.j-ignore')[0].getAttribute('data-quantity')) <= quant){
+
+            $('a.counter-btn.__minus.j-product-decrease').addClass( "__disabled" );
+
+        }
+        else{
+            $('a.counter-btn.__minus.j-product-decrease').removeClass( "__disabled" );
+        }
+        console.log('ul click')
+
+        });
+    }
+    updateCounter();
+    ModificationChange.getInstance() && ModificationChange.getInstance().attachEventHandlers({
+        'onAfterAppendHtml': function (status, response) {
+            updateCounter();
+        }
+    });
+
+})()
+
+
+
+
+/*-------- Кнопка бренда -----------*/
+
+(function(){
+
+
+var langText =  window.location.href.indexOf('/ua/') + 1 ? 'Більше товарів цього бренду' : 'Больше товаров этого бренда';
+
+try{
+    
+    var brandLogo = document.querySelector('.j-product-logo').cloneNode(true);
+    var brandLogoHrefText = document.createElement('span');
+    brandLogoHrefText.style="margin-left: 25px;font-size: 16px;font-weight: 600;";
+    brandLogoHrefText.innerHTML =langText;
+    brandLogo.childNodes[1].after(brandLogoHrefText);
+    brandLogo.style ='left: 0;top: 0;position: relative;';
+    brandLogo.classList.remove('j-product-logo');
+    var moreThatBrandButton = document.createElement('div');
+    moreThatBrandButton.style = "position:relative; height: 65px;border: 1px solid #ebc35b82;"
+    moreThatBrandButton.classList.add('product__column-item', 'product__group');
+    moreThatBrandButton.append(brandLogo);
+    document.querySelector('.j-product-right-column').childNodes[1].after(moreThatBrandButton);
+
+}
+catch (e){
+    console.log('Create brand button only on page');
+}
+
+
+
+})();
