@@ -858,17 +858,19 @@ input.counter-field.j-product-counter {
 /*-------- Добавление кастомного наполнения из характеристик -------------*/
 
 
-<span id="customText">&nbsp;</span>
- <script>
+<p>Гарантия от производителя <span id="customText">12 мес</span></p>
+
+<p><script>
 var features = document.querySelectorAll('tr.product-features__row');
  for(let i = 0; i<features.length; i++){
-        if(features[i].getElementsByClassName('product-features__cell--h')[0].innerHTML.trim() == 'Экран'){
+        if(features[i].getElementsByClassName('product-features__cell--h')[0].innerHTML.trim() == 'Гарантія' || features[i].getElementsByClassName('product-features__cell--h')[0].innerHTML.trim() == 'Гарантия'){
         document.getElementById('customText').innerHTML = features[i].getElementsByClassName('product-features__cell')[1].innerHTML.trim();
         break;
         };
     };
 </script>
 
+</p>
 
 
 /*----------- Сделать блок в характеристиках  ---------*/
@@ -967,6 +969,65 @@ catch (e){
     console.log('Create brand button only on page');
 }
 
+
+
+})();
+
+
+
+/*----------- input для моб версии ---------*/
+
+
+const cartInputChange = () => {
+
+$('input.j-quantity-p').each(function(){
+$(this).css("display","block");
+});
+$('.select').each(function(){
+    $(this).css("display","none");
+})
+};
+
+window.onload = function(){
+cartInputChange();
+    
+}
+
+$('a[href="#cart"]').click(function(){
+    cartInputChange();
+})
+$('.j-remove-p').click(function(){
+cartInputChange();
+})
+
+
+
+/*-------- Убрать кнопку для статусов
+ statusCheck == 'Отпускается с рецептом' || statusCheck == 'Відпускаєтся з рецептом' --------*/
+
+
+(function(){
+const statusCheck = $('.product-header__availability').text().trim();
+console.log(statusCheck)
+if (statusCheck == 'Отпускается с рецептом' || statusCheck == 'Відпускаєтся з рецептом'){
+$('.product-order').remove()
+}
+
+})();
+
+
+/*---- Ниже для миникарточки ----*/
+
+(function(){
+var miniCardCol = $('.j-catalog-card').each(function(){
+
+    const statusCheck = $(this).find('.catalogCard-outStock').text().trim();
+    console.log(statusCheck)
+    if (statusCheck == 'Отпускается с рецептом' || statusCheck == 'Відпускаєтся з рецептом'){
+    $(this).find('.j-buy-button-add').remove()
+    }
+
+})
 
 
 })();
