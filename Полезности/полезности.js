@@ -557,6 +557,8 @@ div#LeaveMessageBlock_close {
 
 /*---------------  Поиск по фильтру  --------------------*/
 
+(function(){
+
 $('.filter-section-h').after('<input class="filterInput" placeholder="Поиск по фильтру" type="text">');
 
 $('.filterInput').keyup(
@@ -583,7 +585,73 @@ $('.filterInput').keyup(
 
 )
 
+})()
 
+/*---------------CSS
+li.filter-lv1-i.Notmatch {
+    display: none;
+}
+input.filterInput {
+    padding: 4px;
+    border: 1px solid #d2d2d2;
+        height: 32px;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 95%;
+        margin-bottom: 15px;
+        transition:0.4s all;
+}
+
+input.filterInput:hover{
+border-color: #a6a5a5;
+    box-shadow: 0px 0px 10px #00000061;
+}
+
+*/
+
+/*------- V2 <С выбором характеристики> -----*/
+
+
+(function(){
+
+$('.filter-section-h').each(function(){
+
+    if($(this).text().trim() == 'Укажите Автомобиль'){
+        $(this).after('<input class="filterInput" placeholder="Поиск по фильтру" type="text">');
+    }
+
+}
+
+
+
+
+    )
+
+$('.filterInput').keyup(
+    function() {
+        var filter = this.value.toUpperCase();
+        var list = this.parentNode;
+        list = list.getElementsByClassName('filter-lv1-i');
+        for (var i = 0; i < list.length; i++) {
+            var listEl = list[i].innerText;
+            if (listEl.toUpperCase().indexOf(filter) > -1) {
+                var found = true;
+            }
+            if (found) {
+                list[i].classList.add('match');
+                list[i].classList.remove('Notmatch');
+            } else {
+                list[i].classList.add('Notmatch');
+                list[i].classList.remove('match');
+            }
+            found = false;
+
+        }
+    }
+
+)
+
+})()
 
 
 
@@ -1031,3 +1099,43 @@ var miniCardCol = $('.j-catalog-card').each(function(){
 
 
 })();
+
+
+
+
+
+/*--------------  Кастомное меню -----------*/
+
+$(document).ready(function(){
+
+$('div.productsMenu-tabs-content').addClass('hide');
+
+$('div.productsMenu-submenu.__fluidGrid.__smallIcons.__hasTabs.__pos_left').addClass('openCustomMenu');
+
+});
+$('div.productsMenu-tabs').mouseleave(function(){
+    $('div.productsMenu-tabs-content').addClass('hide');
+});
+$('div.productsMenu-tabs').mouseenter(function(){
+    $('div.productsMenu-tabs-content').removeClass('hide');
+});
+
+
+/*----------CSS
+
+
+.productsMenu-submenu.__fluidGrid.__smallIcons.__hasTabs.__pos_left.openCustomMenu {
+    visibility: visible!important;
+    opacity: 1!important;
+    height: auto!important;
+}
+
+
+.productsMenu-tabs-content.hide {
+    width: 0;
+}
+
+
+
+
+*/
