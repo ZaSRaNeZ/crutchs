@@ -455,7 +455,7 @@ console.log(catList)
 
 
 
-
+(function(){
 
 var catalogMenu = $('.header__bottom')[0];
 var catalogMenuSourceTop = catalogMenu.getBoundingClientRect().top + window.pageYOffset;
@@ -469,7 +469,7 @@ window.onscroll = function() {
     }
 };
 
-
+})()
 /*---------- css
 
 
@@ -491,11 +491,6 @@ aside.j-catalog-sticker-column, .catalog__middle-col.catalog__middle-col--conten
 
 */
 /*----------------- END*/
-
-
-
-
-
 
 
 
@@ -531,7 +526,9 @@ onmousemove = function(val) {
 
 
 
-/*div#LeaveMessageBlock {
+/*
+
+div#LeaveMessageBlock {
     width: 40vw;
     height: 300px;
     position: fixed;
@@ -612,17 +609,20 @@ border-color: #a6a5a5;
 /*------- V2 <С выбором характеристики> -----*/
 
 
-(function(){
+
+
+function createFilterSerach (){
+
+var langText =  window.location.href.indexOf('/ua/') + 1 ? 'Пошук по фільтру' : 'Поиск по фильтру';
+
 
 $('.filter-section-h').each(function(){
 
-    if($(this).text().trim() == 'Укажите Автомобиль'){
-        $(this).after('<input class="filterInput" placeholder="Поиск по фильтру" type="text">');
+    if($(this).text().trim() == 'Бренд' || $(this).text().trim() == 'Бренд'){
+        $(this).after(`<input class="filterInput" placeholder= "${langText}" type="text">`);
     }
 
 }
-
-
 
 
     )
@@ -650,8 +650,14 @@ $('.filterInput').keyup(
     }
 
 )
+};
 
-})()
+
+createFilterSerach();
+
+CatalogBuilder.attachEventHandler('onChange', function() {createFilterSerach();})
+
+
 
 
 
@@ -696,12 +702,6 @@ $('li.productsMenu-tabs-list__tab').mouseover(function(){
 .productsMenu-tabs, .productsMenu-tabs-switch, .productsMenu-tabs-list {
     width: 300px;
 }
-
-
-
-
-
-
 
 
 
@@ -1121,6 +1121,8 @@ $('div.productsMenu-tabs').mouseenter(function(){
 });
 
 
+
+
 /*----------CSS
 
 
@@ -1139,3 +1141,122 @@ $('div.productsMenu-tabs').mouseenter(function(){
 
 
 */
+
+
+
+/*-------- alt 
+<script>
+$('div.productsMenu-tabs').mouseleave(function(){
+
+    $('div.productsMenu-tabs-content').addClass('hide');
+
+});
+
+$('div.productsMenu-tabs').mouseenter(function(){
+
+    $('div.productsMenu-tabs-content').removeClass('hide');
+
+});
+</script>
+
+*/
+
+
+
+
+/*--------- Модальное окно ----------*/
+
+
+/*
+
+ <div style="display:none" id="custom_age">
+        <div id="custom_age_overlay">
+            <div id="custom_age_message">
+
+                <div id="custom_age_message_text">
+                    <h2>Есть ли вам 18? </h2>
+                    <p>Данный контент с рейтингом 18+. Пожалуйста подтвердите ваш возраст</p>
+                </div>
+                <div id="custom_age_message_buttons">
+                    <button class="custom_age_message_button" id="custom_age_message_buttons_yes">Да</button>
+                    <button class="custom_age_message_button" d="custom_age_message_buttons_no" onclick="javascript:history.back(); return false;">Нет</button>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+ #custom_age {
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        min-width: 100VW;
+        min-height: 100vh;
+    }
+
+    #custom_age_overlay {
+        width: 100vw;
+        height: 100vh;
+        background-color: #faf3f3;
+        padding-top:  calc(100vh / 2 - 125px);
+        box-sizing:border-box;
+    }
+
+    #custom_age_message {
+        
+        position: relative;
+        width: 450px;
+        height: 250px;
+        background-color: aliceblue;
+        margin: auto ;
+        border-radius: 10px;
+            border: 2px solid #e78692;
+    box-shadow: 2px 4px 35px #00000085;
+        
+        
+    }
+    #custom_age_message_text{
+        text-align: center;
+        padding: 2em 2em 4em;
+    }
+    
+    #custom_age_message_buttons{
+        width: 80%;
+        margin: auto;
+         text-align: center;
+    }
+    
+    .custom_age_message_button{
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+    }
+    
+
+    
+*/
+
+
+<script>
+$(document).ready(function() {
+    if(localStorage.getItem('popState') != 'shown'){
+        $("#custom_age").delay(900).fadeIn();
+        
+    }
+
+    $('#custom_age_message_buttons_yes').click(function(e) 
+    {
+    $('#custom_age').fadeOut(); // Now the pop up is hiden.
+    localStorage.setItem('popState','shown')
+    });
+});
+</script>
