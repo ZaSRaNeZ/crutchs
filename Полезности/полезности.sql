@@ -213,3 +213,67 @@ VALUES ( 'тест добавления новости', '2015-02-27', 1001, '<p
 
 INSERT INTO h_comments (`i18n_language`, `title`, `text`, `record`, `date`, `handler`, `rate`, `moderated`)
 VALUES (0,'{$от кого}', '{$Текст коммента}', (SELECT item_id FROM h_catalog WHERE article = '{$Артикул товара которому нужен коммент}' LIMIT 1), '2020-02-10 12:04:01' , (SELECT handler_id FROM h_catalog WHERE article = '{$Артикул товара которому нужен коммент}' LIMIT 1), {$Рейтинг от 0-5},{$ парметр модерации 0-1});
+
+
+
+#---------------------------------------------------------------------------
+
+
+# LOCK TABLES `pages` WRITE, `languages` WRITE;
+LOCK TABLES `h_comments` WRITE;
+DROP TEMPORARY TABLE IF EXISTS `comment_ids`;
+CREATE TEMPORARY TABLE IF NOT EXISTS `page_ids` (
+  `pk` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` INT(11) NOT NULL,
+  `realId` INT(11) NOT NULL
+
+);
+
+
+# START
+# ------------------------------------
+
+
+
+INSERT INTO h_comments (`i18n_language`, `title`, `text`, `record`, `date`, `handler`, `rate`, `moderated`)
+VALUES (0,'{$от кого}', '{$Текст коммента}', (SELECT item_id FROM h_catalog WHERE article = '{$Артикул товара которому нужен коммент}' LIMIT 1), '2020-02-10 12:04:01' , (SELECT handler_id FROM h_catalog WHERE article = '{$Артикул товара которому нужен коммент}' LIMIT 1), {$Рейтинг от 0-5},{$ парметр модерации 0-1});
+
+INSERT INTO `comment_ids` (`id`, `realId`)
+VALUES (${ID}, (SELECT MAX(`id`) FROM `h_comments`));
+
+
+UNLOCK TABLES;
+
+
+
+
+LOCK TABLES `h_comments` WRITE, `h_catalog` READ;
+DROP TEMPORARY TABLE IF EXISTS `comment_ids`;
+CREATE TEMPORARY TABLE IF NOT EXISTS `page_ids` (
+  `pk` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` INT(11) NOT NULL,
+  `realId` INT(11) NOT NULL
+
+);
+
+
+# START
+# ------------------------------------
+
+SET @record = (SELECT `item_id` FROM `h_catalog` WHERE `article` = 'MD827' LIMIT 1);
+SET @handler = (SELECT `handler_id` FROM `h_catalog` WHERE `article` = 'MD827' LIMIT 1);
+
+INSERT INTO `h_comments` (`i18n_language`, `title`, `text`, `record`, `date`, `handler`, `rate`, `moderated`)
+VALUES (0, 'Comment Tester', 'Just test commetn here',
+            @record,
+            '2020-02-10 12:04:01' ,
+            @handler,
+            5,
+            1
+        );
+
+INSERT INTO `comment_ids` (`id`, `realId`)
+VALUES (1, (SELECT MAX(`id`) FROM `h_comments`));
+
+
+UNLOCK TABLES;
