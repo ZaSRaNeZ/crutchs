@@ -323,6 +323,9 @@ UNLOCK TABLES;
 
 
 
+/*----- С проверкой --------------------*/
+
+
 LOCK TABLES `h_comments` WRITE, `h_catalog` READ;
 DROP TEMPORARY TABLE IF EXISTS `comment_ids`;
 CREATE TEMPORARY TABLE IF NOT EXISTS `comment_ids` (
@@ -335,8 +338,8 @@ CREATE TEMPORARY TABLE IF NOT EXISTS `comment_ids` (
 # START
 # ------------------------------------
 
-SET @record = (SELECT `item_id` FROM `h_catalog` WHERE `article` = 'MD827' LIMIT 1);
-SET @handler = (SELECT `handler_id` FROM `h_catalog` WHERE `article` = 'MD827' LIMIT 1);
+SET @record = (SELECT `item_id` FROM `h_catalog` WHERE `article` = 'none' LIMIT 1);
+SET @handler = (SELECT `handler_id` FROM `h_catalog` WHERE `article` = 'none' LIMIT 1);
 
 SET @parent = CASE WHEN 0 > 0 THEN (SELECT `realId` FROM `comment_ids` WHERE `id` = 0 LIMIT 1)
 
