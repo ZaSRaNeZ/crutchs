@@ -379,3 +379,17 @@ PREPARE stmt from @insertCase;
 EXECUTE stmt;
 
 UNLOCK TABLES;
+
+
+
+
+
+
+
+/*------- Вывести все каталожные страницы наименованиями их шаблонов  ------------*/
+
+
+
+SELECT pages.id, pages.parent, pages.title AS page_Title, handlers.title AS handler_Title, handlers.table AS handler_Table_name
+FROM pages INNER JOIN handlers ON pages.handler = handlers.id
+WHERE pages.i18n_language = 1 AND pages.handler <> 17 AND pages.handler IN (SELECT id FROM handlers WHERE TYPE =2);

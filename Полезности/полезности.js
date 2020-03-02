@@ -1243,7 +1243,7 @@ $('div.productsMenu-tabs').mouseenter(function(){
     
 
     
-*/
+
 
 
 <script>
@@ -1260,3 +1260,89 @@ $(document).ready(function() {
     });
 });
 </script>
+
+
+*/
+
+
+/*---  убегающая кнопка---*/
+
+
+
+
+function createEl (nodeClass) {
+
+    var button = document.createElement('a');
+    button.classList.add('fake-button');
+    button.setAttribute('href','#');
+    button.innerHTML = 'Купить';
+    return button;
+}
+function randomInteger(min, max) {
+  // случайное число от min до (max+1)
+  let rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+}
+
+
+
+var fakeButtonNode = document.querySelector("[fake-button='true']").parentNode;
+var FakeButtonHref = fakeButtonNode.parentNode.querySelector('.banner-a').href;
+fakeButtonNode.parentNode.querySelector('.banner-a').remove();
+
+var button = createEl();
+var runRangeW = fakeButtonNode.offsetWidth;
+var runRangeH = fakeButtonNode.offsetHeight;
+
+
+
+var runCount=0;
+
+fakeButtonNode.append(button);
+button.onmouseover = function(){
+    if (runCount>10){
+        this.style ='pointer-events: all';
+        this.href = FakeButtonHref;
+        return;
+    }
+
+    var maxH = runRangeH - this.offsetHeight;
+    var maxW = runRangeW - this.offsetWidth;
+    this.style = 'top:'+randomInteger(0,maxH)+'px;left:'+randomInteger(0,maxW)+'px';
+    runCount++;
+
+
+}
+/*
+button.addEventListener("mouseover", function() {
+
+
+
+
+})
+*/
+
+
+/*
+
+a.fake-button {
+    width: 112px;
+    height: 37px;
+    display: block;
+    position: absolute;
+    background: transparent;
+    top: 59%;
+    left: 21.1%;
+    box-sizing: border-box;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    transition: 0.1s all ease-out;
+    color: #fff;
+    text-align: center;
+    line-height: 200%;
+    font-size: 16px;
+    font-family: "Roboto",sans-serif;
+}
+
+
+*/
