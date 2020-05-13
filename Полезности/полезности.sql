@@ -393,3 +393,24 @@ UNLOCK TABLES;
 SELECT pages.id, pages.parent, pages.title AS page_Title, handlers.title AS handler_Title, handlers.table AS handler_Table_name
 FROM pages INNER JOIN handlers ON pages.handler = handlers.id
 WHERE pages.i18n_language = 1 AND pages.handler <> 17 AND pages.handler IN (SELECT id FROM handlers WHERE TYPE =2);
+
+
+
+
+/*------- Создание шаблонов ---------*/
+
+
+
+CREATE TABLE h_catalog_testovyyShablocreateTest SELECT * FROM h_catalog_testovyyShabloNovyy;
+
+INSERT INTO handlers (`name`, `table`,`title`,`parent`,`type`) VALUES ('catalog_testovyyShablocreateTest' , 'h_catalog_testovyyShablocreateTest' , 'Новый тестовый шаблон авто созд' , 17 , 2 );
+SET @handlerId = (SELECT id FROM handlers WHERE `table` = 'h_catalog_testovyyShablocreateTest' LIMIT 1);
+
+INSERT INTO handlers_format_group (`title`, `parent`) VALUES ('Основная группа в тестовом шаблоне автосоздание 2', @handlerId );
+
+#---------------Access   4 12 13 14 
+
+
+INSERT INTO h_common_access (type, item, role, access_level)
+VALUES(3, @handlerId, 13, 1),(3, @handlerId, 13, 2),(3, @handlerId, 13, 3)
+

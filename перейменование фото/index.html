@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <textarea name="" id="filename" cols="30" rows="10" placeholder="по строчно название фоток в формате foto.jpg"></textarea>
+    <textarea name="" id="article" placeholder="article#искомый элмент" cols="30" rows="10"></textarea>
+    <button onclick="start()" id="start">start</button>
+    
+
+    <script>
+        function start(){
+
+        var obj={},
+            fileNameArr = document.getElementById('filename').value.split('\n'),
+            articleArr =document.getElementById('article').value.split('\n');
+            for (let item of articleArr) {
+                item = item.split('#')
+                if(item[0]!=""){
+                    obj[item[0]] ={
+                    article: item[1],
+                    articleText: item[0],
+                    file:[]
+                    }
+                }
+            }
+            
+
+            for (let item of fileNameArr){
+                for (let art in obj) {
+                    console.log(item.indexOf(obj[art].article));
+                    if (item.indexOf(obj[art].article)>=0) {obj[art].file.push(item)};
+                }
+            }
+        
+        console.log(obj);   
+        for (let art in obj) {
+                    obj[art].file.forEach((element,index) => {
+                        console.log(element + '$' + obj[art].articleText +'-' + (index + 1) + '.jpg' + '$' + obj[art].article)
+                    });
+        }
+    }
+        
+    </script>
+</body>
+</html>

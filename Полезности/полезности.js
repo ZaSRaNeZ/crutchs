@@ -1346,3 +1346,103 @@ a.fake-button {
 
 
 */
+
+
+
+/*------------ Проверка на моб устройства------*/
+
+ function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+}
+
+
+
+
+/*---------- Мин кол-во ед товара ----------------*/
+
+ function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+}
+
+
+  var 
+      cart = document.querySelector('.cart'),
+      quantFilds = cart.getElementsByClassName((detectMob() ? 'input j-quantity-p' : 'j-quantity-p' )),
+      orderButton = cart.querySelector( (detectMob() ? '.cart__order' : '.cart-btnOrder')),
+      quantMin = 12,
+      quantAll = 0;
+
+
+      
+
+
+
+function noAllowOrder(){
+  orderButton.style = 'pointer-events: none; filter: grayscale(1);';
+}
+
+function allowOrder(){
+  orderButton.style = 'pointer-events: all; filter: grayscale(0);';
+}
+
+
+function quantityCheck (){
+      quantAll = 0;
+
+      for (let el of quantFilds){
+
+        quantAll += parseFloat(el.value);
+        console.log(parseFloat(el.value));
+        console.log(parseFloat(quantAll));
+
+        if( quantAll >= quantMin){
+          allowOrder()
+          return;
+        }
+
+      }
+      noAllowOrder();
+}
+
+noAllowOrder();
+
+
+
+for(let el of quantFilds){
+  el.oninput = () => {
+    console.log('check');
+    quantityCheck();
+  } 
+}
+
+/*---------- Открыть все вложенности в структуре ------------*/
+
+document.querySelectorAll('.expand').forEach(el => {
+if(!(el.parentNode.classList.contains("expanded"))){
+el.click()
+}
+})
