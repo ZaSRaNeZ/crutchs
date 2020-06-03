@@ -1446,3 +1446,95 @@ if(!(el.parentNode.classList.contains("expanded"))){
 el.click()
 }
 })
+
+
+/*-------------  lang + цена догворная -----------*/
+
+
+(()=>{
+
+var pricePattern = '0.00 грн',
+        pricePatternLang = (() => {
+        let lang = document.documentElement.lang;
+            switch (lang) {
+                case 'ru' : return 'Цена: 0.00 грн';
+                case 'uk' : return 'Ціна: 0.00 грн';
+                default : return '0.00 грн';
+            }
+    })(),
+        langText = (() => {
+        let lang = document.documentElement.lang;
+            switch (lang) {
+                case 'ru' : return 'Цена договорная';
+                case 'uk' : return 'Ціна договірна';
+                default : return 'Ask price';
+            }
+    })();
+
+const miniCardPriceChage = () => {
+    let priceItemsList = document.querySelectorAll('.j-catalog-card,.catalog-card');
+    
+    priceItemsList.forEach((el,i)=>{
+        let price = el.querySelector('.catalogCard-price,.catalog-card__price');
+        if(price.textContent.trim() == pricePattern.trim() || price.textContent.trim() == pricePatternLang.trim()){
+        price.innerHTML = langText;
+        try{
+            el.querySelector('.j-buy-button-add').remove();
+        }
+        catch(e){};
+        } 
+    });
+
+}
+const productPagePriceChange = () => {
+    let priceItemsList = document.querySelectorAll('.catalogCard-price,.product-price__item,.product-card__price');
+
+    priceItemsList.forEach((e,i)=>{
+        if(e.textContent.trim() == pricePattern.trim() || e.textContent.trim() == pricePatternLang.trim()){
+
+            e.innerHTML = langText;
+        try{
+        document.querySelector('.j-buy-button-add').remove();
+        }
+        catch(e){};
+        } 
+    });
+
+}
+
+//================================== Функция для изменения цены
+
+const priceChange = () => {
+
+    if(document.querySelectorAll('.j-catalog-card,.catalog-card').length > 0) miniCardPriceChage()
+        else productPagePriceChange();
+    console.log('changed');
+}
+
+
+//================================== Ниже обсервер который следит за DOM и в случае изменения вызивает функцию priceChange()
+
+(() => {
+
+        var target = document.documentElement;
+        
+        const config = {
+            attributes: true,
+            childList: true,
+            subtree: true
+        }; 
+        
+        const callback = function(mutationsList, observer) {
+            priceChange();
+        };
+        
+        const observer = new MutationObserver(callback);
+        
+        observer.observe(target, config);
+        
+
+})();
+
+//================================== При готовности дом вызвать функцию priceChange()
+window.onload = priceChange();
+})();

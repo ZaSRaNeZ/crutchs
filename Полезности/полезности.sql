@@ -414,3 +414,22 @@ INSERT INTO handlers_format_group (`title`, `parent`) VALUES ('Основная 
 INSERT INTO h_common_access (type, item, role, access_level)
 VALUES(3, @handlerId, 13, 1),(3, @handlerId, 13, 2),(3, @handlerId, 13, 3)
 
+
+
+/*-------------- перенос SEO текста для разделов ------------------ */
+
+#----- Сначала нужно добавить те страницы которых нет в таблице h_catalog_extra. для этого идем и достаем id таких страниц
+
+SELECT id FROM pages WHERE i18n_language =1 AND `id` NOT IN (SELECT `id` FROM h_catalog_extra) AND `handler` IN (SELECT id FROM handlers WHERE TYPE =2)
+
+#----- Потом нужно их создать для каждой прописав вот такой запрос Где 
+
+INSERT INTO `h_catalog_extra` (`id`,`i18n_language`,`discount`,`in_catalog_menu`,`in_popular_menu`,`show_pages_only`,`show_nav`,`list_view`) VALUES ({$id},1,0,0,0,0,0,0),({$id},3,0,0,0,0,0,0),({$id},4,0,0,0,0,0,0);
+
+#----- после чего переносим сам СЕО тектс 
+
+UPDATE h_catalog_extra SET `seo_text` = '<p style="padding: 0px; margin: 0px; color: rgb(79, 79, 79); font-family: arial, helvetica, sans-serif;">' WHERE `id` = {$id};
+
+
+/*--------------- Перенос метатегов для категорий ----------*/
+UPDATE `pages` SET `seo_description` = '', `seo_keywords` = '', `seo_title` = '', `h1_title` = '' WHERE `id` = {$id};
